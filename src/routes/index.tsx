@@ -1,9 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import { Nav, Footer } from '@/components/site/Nav'
 import { MapScreenshot, FeedScreenshot, Chip, Pin } from '@/components/site/PhoneMockup'
 import { Reveal } from '@/components/site/Reveal'
 import { MoodSlider } from '@/components/site/MoodSlider'
+import { joinWaitlist } from '@/lib/waitlist'
 import demoLoop from '@/assets/video/demo-loop.mp4'
 
 export const Route = createFileRoute('/')({
@@ -382,6 +383,21 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 }
 
 function CTA() {
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [email, setEmail] = useState('')
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault()
+    setStatus('loading')
+    try {
+      await joinWaitlist({ data: { email } })
+      setStatus('success')
+      setEmail('')
+    } catch {
+      setStatus('error')
+    }
+  }
+
   return (
     <section id="cta" className="mx-auto max-w-6xl px-6 py-28">
       <div className="relative overflow-hidden rounded-3xl bg-primary px-8 py-20 text-primary-foreground md:px-16 md:py-28">
@@ -394,20 +410,32 @@ function CTA() {
             Nous invitons de nouveaux cercles d'amis chaque semaine. Laissez votre email et on vous
             envoie un lien TestFlight dès que c'est votre tour.
           </p>
-          <form className="mt-10 flex w-full max-w-md flex-col gap-3 sm:flex-row" onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="email"
-              required
-              placeholder="vous@email.com"
-              className="flex-1 rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-5 py-3 text-sm text-primary-foreground placeholder:text-primary-foreground/50 focus:border-primary-foreground/50 focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="rounded-full bg-background px-6 py-3 text-sm font-medium text-foreground transition hover:bg-accent"
-            >
-              Demander l'accès
-            </button>
-          </form>
+          {status === 'success' ? (
+            <p className="mt-10 max-w-md text-lg">Merci, vous êtes sur la liste. On vous écrit bientôt.</p>
+          ) : (
+            <form className="mt-10 flex w-full max-w-md flex-col gap-3 sm:flex-row" onSubmit={handleSubmit}>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="vous@email.com"
+                className="flex-1 rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-5 py-3 text-sm text-primary-foreground placeholder:text-primary-foreground/50 focus:border-primary-foreground/50 focus:outline-none"
+              />
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className="rounded-full bg-background px-6 py-3 text-sm font-medium text-foreground transition hover:bg-accent disabled:opacity-60"
+              >
+                {status === 'loading' ? 'Envoi...' : "Demander l'accès"}
+              </button>
+            </form>
+          )}
+          {status === 'error' && (
+            <p className="mt-3 text-sm text-primary-foreground/80">
+              Un souci a empêché l'envoi. Réessayez, ou écrivez-nous directement.
+            </p>
+          )}
         </div>
       </div>
     </section>

@@ -29,6 +29,22 @@ Serif + Inter, style éditorial inspiré d'Apple / Sana Labs.
 - **Lien App Store** (`index.tsx`, fonction `AppStoreBadge`) : affiché en badge non cliquable tant
   que l'app n'est pas publiée — ajoutez le `href` réel une fois en ligne.
 
+## Liste d'attente (formulaire → Notion)
+
+Le formulaire "Demander l'accès" envoie les emails vers une base Notion via `src/lib/waitlist.ts`
+(un server function TanStack Start : le token Notion ne quitte jamais le serveur). Pour l'activer :
+
+1. Créez une intégration sur [notion.so/my-integrations](https://www.notion.so/my-integrations),
+   copiez son "Internal Integration Secret" (`NOTION_TOKEN`).
+2. Créez une base Notion avec une propriété "Email" comme titre.
+3. Partagez cette base avec l'intégration (⋯ en haut à droite de la base → Connexions).
+4. Copiez l'ID de la base depuis son URL (`notion.so/<NOTION_DATABASE_ID>?v=...`).
+5. `cp .env.example .env` et remplissez `NOTION_TOKEN` / `NOTION_DATABASE_ID`.
+6. Sur Vercel, ajoutez les deux mêmes variables dans Project Settings → Environment Variables.
+
+Sans ces variables, le formulaire échoue proprement (message d'erreur affiché), il ne perd pas
+les emails silencieusement.
+
 ## Démarrer
 
 ```bash
