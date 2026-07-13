@@ -19,16 +19,13 @@ Serif + Inter, style éditorial inspiré d'Apple / Sana Labs.
   à fixer une fois le texte validé.
 - **Favicon / logo** : `public/favicon.ico` est encore celui du starter TanStack — à remplacer par
   le vrai logo Kaki.
-- **Chiffres de la section Stats** (`index.tsx`, fonction `Stats`) : les "X" sont des placeholders
-  — à remplacer par le vrai nombre d'inscrits sur liste d'attente et de restaurants sauvegardés
-  avant publication.
 - **Démo vidéo** (`index.tsx`, fonction `VideoDemo`) : la vidéo en fond (`src/assets/video/demo-loop.mp4`,
   compressée depuis le clip d'ambiance du moodboard, 446 Ko) n'est **pas** une vraie démo de l'app —
   c'est pour ça que "Vidéo bientôt disponible" reste affiché par-dessus. Dès que vous avez un vrai
   écran-cast de l'app (30-45s), remplacez ce fichier et retirez l'overlay/le texte.
-- **Photos d'ambiance** (`index.tsx`/`MoodSlider.tsx`, `src/assets/mood/`) : 3 photos du moodboard
-  qui partagent exactement le même ratio (1280×853) pour s'afficher en entier sans recadrage. Si
-  vous ajoutez/retirez des photos, gardez ce même ratio pour éviter tout crop.
+- **Photos d'ambiance** (`MoodSlider.tsx`, `src/assets/mood/`) : partagent toutes le même ratio
+  (environ 1280×853) pour s'afficher en entier sans recadrage. Si vous ajoutez/retirez des photos,
+  gardez ce même ratio pour éviter tout crop.
 - **Lien App Store** (`index.tsx`, fonction `AppStoreBadge`) : affiché en badge non cliquable tant
   que l'app n'est pas publiée — ajoutez le `href` réel une fois en ligne.
 
@@ -91,16 +88,39 @@ pnpm dlx shadcn@latest add button
 ```
 
 
-## Deploy with Nitro
+## Déployer sur Vercel
 
-This project uses Nitro as a generic server adapter, so it can run on any Node-compatible host.
+Le repo git est prêt (premier commit fait). Pour le mettre en ligne sur Vercel, deux façons :
+
+**Option A — via GitHub (recommandé, déploie automatiquement à chaque push) :**
+1. Créez un repo vide sur [github.com/new](https://github.com/new) (ne cochez ni README ni .gitignore).
+2. Dans ce dossier :
+   ```bash
+   git remote add origin https://github.com/<votre-compte>/<nom-du-repo>.git
+   git push -u origin main
+   ```
+3. Sur [vercel.com/new](https://vercel.com/new), cliquez "Import Project" et sélectionnez ce repo. Vercel détecte automatiquement Vite/Nitro, aucune configuration à toucher.
+
+**Option B — directement depuis votre machine, sans GitHub :**
+```bash
+npm i -g vercel
+vercel login
+vercel        # déploiement de preview
+vercel --prod # déploiement en production
+```
+
+Nitro détecte automatiquement qu'il tourne sur Vercel et génère le bon format de sortie, aucune config supplémentaire n'est nécessaire.
+
+## Deploy with Nitro (autre hébergeur)
+
+Ce projet utilise Nitro comme adaptateur serveur générique, il peut donc tourner sur n'importe quel hébergeur Node.
 
 ```bash
 npm run build
-node dist/server/index.mjs
+node .output/server/index.mjs
 ```
 
-The build output is a self-contained Node server. To deploy, push the `dist/` directory to your host (Render, Fly.io, your own VPS, etc.) and run the server command above.
+Le build produit un serveur Node autonome. Pour déployer ailleurs (Render, Fly.io, votre propre VPS), poussez le dossier `.output/` sur l'hébergeur et lancez la commande ci-dessus.
 
 For host-specific presets (Vercel, Netlify, Cloudflare, AWS Lambda, etc.) and tuning, see https://v3.nitro.build/deploy.
 
