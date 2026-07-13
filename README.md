@@ -36,10 +36,10 @@ Le formulaire "Demander l'accès" envoie les emails vers une base Notion via `sr
 
 1. Créez une intégration sur [notion.so/my-integrations](https://www.notion.so/my-integrations),
    copiez son "Internal Integration Secret" (`NOTION_TOKEN`).
-2. Créez une base Notion avec une propriété "Email" comme titre.
+2. Créez une base Notion avec une propriété "Email" (titre) et "Contacté" (case à cocher).
 3. Partagez cette base avec l'intégration (⋯ en haut à droite de la base → Connexions).
-4. Copiez l'ID de la base depuis son URL (`notion.so/<NOTION_DATABASE_ID>?v=...`).
-5. `cp .env.example .env` et remplissez `NOTION_TOKEN` / `NOTION_DATABASE_ID`.
+4. Copiez l'ID de la base depuis son URL (`notion.so/<NOTION_DB_ID>?v=...`).
+5. `cp .env.example .env` et remplissez `NOTION_TOKEN` / `NOTION_DB_ID`.
 6. Sur Vercel, ajoutez les deux mêmes variables dans Project Settings → Environment Variables.
 
 Sans ces variables, le formulaire échoue proprement (message d'erreur affiché), il ne perd pas
