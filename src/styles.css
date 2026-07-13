@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap');
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Kaki brand tokens — crème + kaki vert, calme et éditorial.
+ * Toutes les couleurs sont en oklch pour un contraste homogène.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
+}
+
+:root {
+  --radius: 0.75rem;
+  --background: oklch(1 0 0); /* blanc pur */
+  --foreground: oklch(0.22 0.02 130); /* encre olive profonde */
+  --card: oklch(0.985 0.005 110);
+  --card-foreground: oklch(0.22 0.02 130);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.02 130);
+  --primary: oklch(0.42 0.06 128); /* kaki vert */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.97 0.008 110);
+  --secondary-foreground: oklch(0.22 0.02 130);
+  --muted: oklch(0.965 0.006 110);
+  --muted-foreground: oklch(0.5 0.015 125);
+  --accent: oklch(0.92 0.03 118); /* sauge claire */
+  --accent-foreground: oklch(0.22 0.02 130);
+  --destructive: oklch(0.55 0.18 30);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.92 0.008 110);
+  --input: oklch(0.92 0.008 110);
+  --ring: oklch(0.42 0.06 128);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss01', 'cv11';
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+}
+
+@utility float-slow {
+  animation: kaki-float 7s ease-in-out infinite;
+}
+@utility float-slower {
+  animation: kaki-float 9s ease-in-out infinite;
+  animation-delay: -3s;
+}
+@utility phone-shadow {
+  filter: drop-shadow(0 40px 60px oklch(0.42 0.06 128 / 0.18)) drop-shadow(0 12px 20px oklch(0.22 0.02 130 / 0.1));
+}
+
+@keyframes kaki-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(-0.4deg);
+  }
+}
+
+@utility hero-tilt {
+  animation: kaki-tilt 8s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+@keyframes kaki-tilt {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(2deg);
+  }
+}
+
+@utility pin-pop {
+  animation: kaki-pin 4.5s ease-in-out infinite;
+}
+@keyframes kaki-pin {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(-6px) scale(1.06);
+    opacity: 1;
+  }
+}
+
+@utility ring-pulse {
+  animation: kaki-ring 3.5s ease-out infinite;
+}
+@keyframes kaki-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.55;
+  }
+  80% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@utility fade-up {
+  animation: kaki-fade-up 0.9s ease-out both;
+}
+@keyframes kaki-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
