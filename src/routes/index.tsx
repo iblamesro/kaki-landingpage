@@ -119,7 +119,7 @@ function Marquee() {
 
 function Stats() {
   const items = [
-    { k: '1', v: 'fondatrice, zéro levée de fonds' },
+    { k: '30s', v: 'pour décider où manger, à plusieurs' },
     { k: '14 000+', v: 'restaurants à Paris' },
     { k: '100%', v: 'adresses d’amis, jamais d’inconnus' },
   ]
