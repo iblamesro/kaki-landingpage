@@ -4,7 +4,7 @@ import { createServerFn } from '@tanstack/react-start'
  * Envoie une inscription à la liste d'attente vers Notion.
  * Nécessite NOTION_TOKEN et NOTION_DB_ID en variables d'environnement
  * (jamais exposées au navigateur : ce code ne tourne que côté serveur).
- * La base Notion doit avoir une propriété "Email" (titre) et "Contacté" (case à cocher).
+ * Schéma de la base "Kaki - Waitlist" : "Email" (titre), "E-mail" (type email), "Contacté" (case à cocher).
  */
 export const joinWaitlist = createServerFn({ method: 'POST' })
   .validator((data: { email: string }) => data)
@@ -31,6 +31,7 @@ export const joinWaitlist = createServerFn({ method: 'POST' })
         parent: { database_id: databaseId },
         properties: {
           Email: { title: [{ text: { content: data.email } }] },
+          'E-mail': { email: data.email },
           Contacté: { checkbox: false },
         },
       }),
