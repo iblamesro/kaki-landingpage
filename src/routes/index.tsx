@@ -119,7 +119,7 @@ function Marquee() {
 
 function Stats() {
   const items = [
-    { k: '30s', v: 'pour décider où manger, à plusieurs' },
+    { k: 'Paris', v: 'notre terrain de jeu, pour commencer' },
     { k: '14 000+', v: 'restaurants à Paris' },
     { k: '100%', v: 'adresses d’amis, jamais d’inconnus' },
   ]
