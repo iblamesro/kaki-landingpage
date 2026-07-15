@@ -45,3 +45,48 @@ export const joinWaitlist = createServerFn({ method: 'POST' })
 
     return { ok: true as const }
   })
+
+/**
+ * Nombre de personnes déjà comptabilisées avant la mise en place de ce formulaire
+ * (suivi ailleurs par Sara). Le compteur affiché = cette base + les vraies inscriptions Notion.
+ */
+const WAITLIST_BASE_COUNT = 256
+
+/**
+ * Compte les inscriptions réelles dans la base Notion (pagine si plus de 100 entrées).
+ * Si Notion n'est pas configuré ou injoignable, retourne juste la base (256) pour ne
+ * jamais casser l'affichage.
+ */
+export const getWaitlistCount = createServerFn({ method: 'GET' }).handler(async () => {
+  const token = process.env.NOTION_TOKEN
+  const databaseId = process.env.NOTION_DB_ID
+
+  if (!token || !databaseId) {
+    return { count: WAITLIST_BASE_COUNT }
+  }
+
+  try {
+    let total = 0
+    let cursor: string | undefined
+    do {
+      const response = await fetch(`https://api.notion.com/v1/databases/${databaseId}/query`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Notion-Version': '2022-06-28',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ page_size: 100, start_cursor: cursor }),
+      })
+      if (!response.ok) throw new Error(await response.text())
+      const body = (await response.json()) as { results: unknown[]; has_more: boolean; next_cursor: string | null }
+      total += body.results.length
+      cursor = body.has_more ? (body.next_cursor ?? undefined) : undefined
+    } while (cursor)
+
+    return { count: WAITLIST_BASE_COUNT + total }
+  } catch (err) {
+    console.error('Erreur comptage Notion:', err)
+    return { count: WAITLIST_BASE_COUNT }
+  }
+})
