@@ -4,22 +4,20 @@ import { Nav, Footer } from '@/components/site/Nav'
 import { MapScreenshot, FeedScreenshot, Chip, Pin } from '@/components/site/PhoneMockup'
 import { Reveal } from '@/components/site/Reveal'
 import { MoodSlider } from '@/components/site/MoodSlider'
-import { joinWaitlist, getWaitlistCount } from '@/lib/waitlist'
+import { joinWaitlist } from '@/lib/waitlist'
 import demoLoop from '@/assets/video/demo-loop.mp4'
 
 export const Route = createFileRoute('/')({
   component: Index,
-  loader: () => getWaitlistCount(),
 })
 
 function Index() {
-  const { count } = Route.useLoaderData()
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Nav />
       <Hero />
       <Marquee />
-      <Stats waitlistCount={count} />
+      <Stats />
       <Story />
       <MoodSlider />
       <Showcase />
@@ -119,9 +117,9 @@ function Marquee() {
   )
 }
 
-function Stats({ waitlistCount }: { waitlistCount: number }) {
+function Stats() {
   const items = [
-    { k: waitlistCount.toLocaleString('fr-FR'), v: 'personnes sur la liste d’attente' },
+    { k: '1', v: 'fondatrice, zéro levée de fonds' },
     { k: '14 000+', v: 'restaurants à Paris' },
     { k: '100%', v: 'adresses d’amis, jamais d’inconnus' },
   ]

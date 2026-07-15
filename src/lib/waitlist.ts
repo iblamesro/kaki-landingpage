@@ -47,14 +47,16 @@ export const joinWaitlist = createServerFn({ method: 'POST' })
   })
 
 /**
- * Nombre de personnes déjà comptabilisées avant la mise en place de ce formulaire
- * (suivi ailleurs par Sara). Le compteur affiché = cette base + les vraies inscriptions Notion.
+ * Non affiché sur la page pour l'instant (retiré le temps d'avoir assez de vraies
+ * inscriptions pour que ce soit un chiffre honnête). Le code reste prêt : pour le
+ * réafficher, ajoutez `loader: () => getWaitlistCount()` sur la route `/` et lisez
+ * `Route.useLoaderData()` dans `Stats`.
  */
-const WAITLIST_BASE_COUNT = 256
+const WAITLIST_BASE_COUNT = 0
 
 /**
  * Compte les inscriptions réelles dans la base Notion (pagine si plus de 100 entrées).
- * Si Notion n'est pas configuré ou injoignable, retourne juste la base (256) pour ne
+ * Si Notion n'est pas configuré ou injoignable, retourne juste la base pour ne
  * jamais casser l'affichage.
  */
 export const getWaitlistCount = createServerFn({ method: 'GET' }).handler(async () => {

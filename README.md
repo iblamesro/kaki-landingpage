@@ -45,6 +45,21 @@ Le formulaire "Demander l'accès" envoie les emails vers une base Notion via `sr
 Sans ces variables, le formulaire échoue proprement (message d'erreur affiché), il ne perd pas
 les emails silencieusement.
 
+## Formulaire de contact (→ email via Resend)
+
+Le formulaire `/contact` envoie un email via `src/lib/contact.ts` (même principe : un server
+function, la clé Resend ne quitte jamais le serveur). Pour l'activer :
+
+1. Créez un compte gratuit sur [resend.com](https://resend.com) avec l'adresse où vous voulez
+   recevoir les messages (sans domaine vérifié, Resend n'autorise l'envoi qu'à cette adresse-là).
+2. Copiez la clé API depuis le dashboard Resend (`RESEND_API_KEY`).
+3. Dans `.env`, remplissez `RESEND_API_KEY` et `CONTACT_TO_EMAIL` (la même adresse qu'à l'étape 1).
+4. Sur Vercel, ajoutez les deux mêmes variables dans Project Settings → Environment Variables.
+
+Plus tard, si vous vérifiez un domaine sur Resend (ex. kaki.app), vous pourrez envoyer depuis
+`contact@kaki.app` et recevoir sur n'importe quelle adresse — changez alors le `from` dans
+`src/lib/contact.ts`.
+
 ## Démarrer
 
 ```bash

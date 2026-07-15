@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Nav, Footer } from '@/components/site/Nav'
-import { useState, type InputHTMLAttributes } from 'react'
+import { useState, type FormEvent, type InputHTMLAttributes } from 'react'
+import { sendContactMessage } from '@/lib/contact'
 
 export const Route = createFileRoute('/contact')({
   component: Contact,
@@ -16,7 +17,21 @@ export const Route = createFileRoute('/contact')({
 })
 
 function Contact() {
-  const [sent, setSent] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault()
+    setStatus('loading')
+    try {
+      await sendContactMessage({ data: form })
+      setStatus('success')
+      setForm({ name: '', email: '', subject: '', message: '' })
+    } catch {
+      setStatus('error')
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Nav />
@@ -44,37 +59,63 @@ function Contact() {
             </p>
           </div>
         </div>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault()
-            setSent(true)
-          }}
-          className="space-y-4 rounded-3xl border border-border bg-card p-8 md:col-span-7 md:p-10"
-        >
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <Field label="Nom" name="name" required />
-            <Field label="Email" name="email" type="email" required />
+        {status === 'success' ? (
+          <div className="flex items-center rounded-3xl border border-border bg-card p-8 md:col-span-7 md:p-10">
+            <p className="text-lg">Message envoyé, merci ! On vous répond bientôt.</p>
           </div>
-          <Field label="Sujet" name="subject" />
-          <div>
-            <label className="mb-1.5 block text-xs uppercase tracking-widest text-muted-foreground">Message</label>
-            <textarea rows={6} required className="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
-          </div>
-          <button type="submit" className="rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition hover:bg-primary">
-            {sent ? 'Message envoyé, merci !' : 'Envoyer'}
-          </button>
-        </form>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4 rounded-3xl border border-border bg-card p-8 md:col-span-7 md:p-10">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <Field label="Nom" value={form.name} onChange={(v) => setForm({ ...form, name: v })} required />
+              <Field label="Email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} required />
+            </div>
+            <Field label="Sujet" value={form.subject} onChange={(v) => setForm({ ...form, subject: v })} />
+            <div>
+              <label className="mb-1.5 block text-xs uppercase tracking-widest text-muted-foreground">Message</label>
+              <textarea
+                rows={6}
+                required
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
+                className="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={status === 'loading'}
+              className="rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition hover:bg-primary disabled:opacity-60"
+            >
+              {status === 'loading' ? 'Envoi...' : 'Envoyer'}
+            </button>
+            {status === 'error' && (
+              <p className="text-sm text-destructive">Un souci a empêché l'envoi. Réessayez dans un instant.</p>
+            )}
+          </form>
+        )}
       </section>
       <Footer />
     </div>
   )
 }
 
-function Field({ label, ...props }: { label: string } & InputHTMLAttributes<HTMLInputElement>) {
+function Field({
+  label,
+  value,
+  onChange,
+  ...props
+}: { label: string; value: string; onChange: (v: string) => void } & Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'value' | 'onChange'
+>) {
   return (
     <div>
       <label className="mb-1.5 block text-xs uppercase tracking-widest text-muted-foreground">{label}</label>
-      <input {...props} className="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
+      <input
+        {...props}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+      />
     </div>
   )
 }
