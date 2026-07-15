@@ -4,7 +4,6 @@ import cafe from '@/assets/mood/cafe.jpg'
 import citylife from '@/assets/mood/citylife.jpg'
 import plating from '@/assets/mood/plating.jpg'
 import icecream from '@/assets/mood/icecream.jpg'
-import eatrich from '@/assets/mood/eatrich.jpg'
 
 /**
  * Toutes les photos partagent le même ratio (environ 1280x853 / 1600x1067) pour que
@@ -16,7 +15,6 @@ const SLIDES = [
   { src: cafe, alt: 'Un café parisien, thé et petits fours' },
   { src: icecream, alt: 'Deux amis qui rient avec des glaces' },
   { src: citylife, alt: 'Une rue de ville, café à la main' },
-  { src: eatrich, alt: 'Un dressage de table conceptuel, fourchette et couteau' },
 ]
 
 const INTERVAL_MS = 2800
