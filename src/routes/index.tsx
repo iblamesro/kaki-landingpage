@@ -433,6 +433,15 @@ function CTA() {
               </button>
             </form>
           )}
+          {status !== 'success' && (
+            <p className="mt-3 max-w-md text-xs text-primary-foreground/60">
+              En rejoignant la liste, vous acceptez de recevoir des emails de Kaki à ce sujet. Voir notre{' '}
+              <a href="/privacy" className="underline underline-offset-2 hover:text-primary-foreground">
+                politique de confidentialité
+              </a>
+              .
+            </p>
+          )}
           {status === 'error' && (
             <p className="mt-3 text-sm text-primary-foreground/80">
               Un souci a empêché l'envoi. Réessayez, ou écrivez-nous directement.

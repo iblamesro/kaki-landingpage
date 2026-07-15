@@ -29,12 +29,6 @@ function Contact() {
           </p>
           <div className="mt-10 space-y-3 text-sm">
             <p>
-              <span className="text-muted-foreground">Email · </span>
-              <a href="mailto:hello@kaki.app" className="underline underline-offset-4 hover:text-primary">
-                hello@kaki.app
-              </a>
-            </p>
-            <p>
               <span className="text-muted-foreground">LinkedIn · </span>
               <a
                 href="https://www.linkedin.com/in/sara-ben-abdelkader/"

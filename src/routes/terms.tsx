@@ -52,10 +52,6 @@ function Terms() {
           Des questions ?{' '}
           <a href="/contact" className="underline underline-offset-4 hover:text-primary">
             Contactez-nous
-          </a>{' '}
-          ou écrivez à{' '}
-          <a href="mailto:legal@kaki.app" className="underline underline-offset-4 hover:text-primary">
-            legal@kaki.app
           </a>
           .
         </Section>
