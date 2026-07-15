@@ -22,7 +22,7 @@ function Terms() {
       <article className="mx-auto max-w-3xl px-6 pb-24 pt-24">
         <p className="text-[11px] uppercase tracking-[0.2em] text-primary">Légal</p>
         <h1 className="mt-4 font-serif text-5xl leading-tight md:text-6xl">Conditions d'utilisation</h1>
-        <p className="mt-6 text-sm text-muted-foreground">Dernière mise à jour : à compléter avant publication</p>
+        <p className="mt-6 text-sm text-muted-foreground">Dernière mise à jour : 16 juillet 2026</p>
         <p className="mt-8 text-muted-foreground">
           En utilisant Kaki, vous acceptez ces conditions. Elles existent pour garder l'app agréable
           pour tout le monde.
